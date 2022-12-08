@@ -15,7 +15,7 @@ conan_cmake_configure(REQUIRES
         catch2/2.13.8
         nlohmann_json/3.11.2
         jwt-cpp/0.6.0
-        GENERATORS cmake_find_package)
+        GENERATORS cmake_find_package_multi)
 
 conan_cmake_autodetect(settings)
 
@@ -30,6 +30,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR}/Conan)
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 find_package(asio REQUIRED)
-find_package(catch2 REQUIRED)
+find_package(Catch2 REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(jwt-cpp REQUIRED)

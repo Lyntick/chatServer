@@ -1,0 +1,11 @@
+
+#ifndef CHATSERVER_SERVERCORE_H
+#define CHATSERVER_SERVERCORE_H
+
+
+class ServerCore {
+
+};
+
+
+#endif //CHATSERVER_SERVERCORE_H

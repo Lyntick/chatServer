@@ -6,9 +6,7 @@
 #include <string>
 #include <queue>
 
-#include <sstream>
 #include <fstream>
-#include <filesystem>
 
 #include <thread>
 #include <mutex>
@@ -21,7 +19,13 @@ namespace Base::Logger{
     public:
         static Logger& getInstance();
         void log (const std::string& msg, LogLevel) override;
-
+        template <class T>
+        void log(const T& t, const LogLevel level = LogLevel::DEBUG)
+        {
+            std::stringstream ss;
+            ss << t;
+            log(ss.str(), level);
+        }
     private:
         Logger();
         ~Logger() override;

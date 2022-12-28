@@ -1,5 +1,16 @@
 
+
+#include <sstream>
+#include <iomanip>
+
 #include "Logger.h"
+#include "FileUtility.h"
+#include "TimeUtility.h"
+
+
+using Utility::File::getCurrentDirectory;
+//using Utility::Time::
+
 
 namespace Base::Logger {
 
@@ -7,7 +18,7 @@ namespace Base::Logger {
         _logThread = std::thread{&Logger::run, this};
     }
 
-    Logger::~Logger() noexcept {
+    Logger::~Logger()  {
         if (_logThread.joinable()) {
             stop();
             _logThread.join();
@@ -26,7 +37,7 @@ namespace Base::Logger {
     }
 
     void Logger::openFile() {
-        _file.open(getCurrentDirectory() + "/" + )//todo
+        _file.open(getCurrentDirectory() + "/"  );//todo
     }
 
     void Logger::closeFile() {
@@ -87,9 +98,31 @@ namespace Base::Logger {
     }
 
     std::string Logger::timestamp() {
-
         std::stringstream strStream;
-        strStream << ;//todo think how to do correct wrap of std::time
+        using std::chrono::duration_cast;
+        using std::chrono::milliseconds;
+        using std::chrono::system_clock;
+        using Utility::Time::localtimeThreadSafe;
+        using Utility::Time::timestempAlias;
+
+        timestempAlias secDivider      = 1000;
+        timestempAlias logMilliseconds = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() % secDivider;
+        timestempAlias rawTime         = system_clock::to_time_t(system_clock::now());
+
+        std::tm safeTime = localtimeThreadSafe(rawTime);//todo
+
+        const unsigned sizeBuffer      = 26;
+        char           buf[sizeBuffer] = {0};
+
+        /// MinGW will warning if we put this string directly
+        std::string_view timeFormat = "%F %T";
+        std::strftime(buf, sizeBuffer, timeFormat.data(), &safeTime);
+
+        std::string str = std::string(buf);
+
+        std::stringstream ss;
+        ss << str << "." << std::setfill('0') << std::setw(3) << logMilliseconds;
+
         return strStream.str();
     }
 

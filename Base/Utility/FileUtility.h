@@ -1,5 +1,12 @@
+#pragma once
 
-#ifndef CHATSERVER_FILEUTILITY_H
-#define CHATSERVER_FILEUTILITY_H
+#include <iostream>
+#include <filesystem>
 
-#endif //CHATSERVER_FILEUTILITY_H
+namespace Utility::File{
+    std::string getCurrentDirectory(){//get absolute path of current directory
+
+    }
+}
+
+
